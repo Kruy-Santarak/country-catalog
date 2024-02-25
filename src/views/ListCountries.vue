@@ -1,7 +1,6 @@
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
-import { useAlert, useInput, useState } from "../hooks";
-import { fuzzySearch, sort } from "../helper";
+import { computed, onMounted } from "vue";
+import { useAlert, useState } from "../hooks";
 import store from "../store";
 
 import DataTable from "../components/ui/data-table/DataTable.vue";
@@ -10,9 +9,7 @@ import CountryItem from "../components/country/CountryItem.vue";
 import BaseModal from "../components/ui/modal/BaseModal.vue";
 import CountryDetailsItem from "../components/country/details/CountryDetailsItem.vue";
 
-// const [searched, setSearched] = useState(false);
-// const [searching, setSearching] = useState(false);
-const [isAscSort, setIsAscSort] = useState(false);
+const [isAscOrder, setIsAscOrder] = useState(false);
 const [currentPage, setCurrentPage] = useState(1);
 const [loading, setLoading] = useState(false); // const loading = ref(false);
 const [errorMessage, setErrorMessage] = useState("");
@@ -58,14 +55,8 @@ const pageChangeHandler = (currentPage) => {
 };
 // sort item handler
 const toggleSortItemHandler = (sortType) => {
-  setIsAscSort(sortType);
+  setIsAscOrder(sortType);
 };
-
-const {
-  value: searchString,
-  changeHandler: inputSearchHandler,
-  resetHandler: clearSearchStringHandler,
-} = useInput("");
 
 // load all countries and insert into vuex store
 const loadCountriesHandler = async () => {
@@ -81,21 +72,6 @@ const loadCountriesHandler = async () => {
     setLoading(false); // loading.value = false;
   }
 };
-
-const searchByOfficialName = fuzzySearch(countries.value, "officialName");
-
-// const searchHandler = () => {};
-
-// const { value: searchString, change: searchStringInputHandler } = useInput();
-
-// watch(
-//   () => searchString.value,
-//   (curr, prev) => {
-//     if (curr.trim() !== prev.trim()) {
-//       setSearching(!!curr.trim());
-//     }
-//   }
-// );
 
 onMounted(() => {
   // load countries on the first page mounted
@@ -126,16 +102,12 @@ onMounted(() => {
     :items="countries"
     :total-count="countries.length"
     :current-page="currentPage"
-    :sort-by="'officialName'"
+    :order-by="'officialName'"
     :filter-by="'officialName'"
-    :asc-sort="isAscSort"
-    :search-string="searchString"
-    @input-search="inputSearchHandler"
-    @clear-search="clearSearchStringHandler"
+    :asc-order="isAscOrder"
     @sort="toggleSortItemHandler"
     @change="pageChangeHandler"
   >
-    <!-- @fuzzy="searchByOfficialName" -->
     <template #table-row="{ data }">
       <CountryItem
         class="w-full"

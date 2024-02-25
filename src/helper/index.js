@@ -1,4 +1,9 @@
-export const paginated = () => {};
+export const paginated = (items = [], pageSize, limit) => {
+  return Array.from({ length: pageSize }, (_, index) => {
+    const start = index * limit;
+    return items.slice(start, start + limit);
+  });
+};
 
 export const sort = (items = [], key, asc = true) => {
   const sortedItems = items.sort((a, b) => {
