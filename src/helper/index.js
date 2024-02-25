@@ -16,10 +16,9 @@ export const sort = (items = [], key, asc = true) => {
   return asc ? sortedItems : sortedItems.reverse();
 };
 
-export const fuzzySearch = (items, key) => {
+export const fuzzySearch = (items = [], key) => {
   return (query) => {
     const searchStrings = query.toLowerCase().split(" ");
-
     return items.filter((item) => {
       const normalizedTerm = item[key].toLowerCase();
       return searchStrings.every(

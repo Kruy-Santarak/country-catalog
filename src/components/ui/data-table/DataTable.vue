@@ -63,16 +63,16 @@ const paginatedItems = computed(() =>
 const currentPageItems = computed(() =>
   (() => paginatedItems.value[props.currentPage - 1])()
 );
-
-const searchByFilterKey = fuzzySearch(sortedItem.value, props.filterBy);
+const filterCountryByKey = fuzzySearch(props.items, props.filterBy);
 // filter country handler
 const searchCountryHandler = async () => {
   try {
     setSearching(true);
     if (searchString.value.trim()) {
-      const response = await searchByFilterKey(searchString.value);
+      const response = filterCountryByKey(searchString.value);
       setSearchedItems([...response]);
-      // if (props.currentPage > 1) pageChangeHandler(1);
+
+      if (props.currentPage > 1) pageChangeHandler(1);
     } else {
       setSearchedItems(null);
     }
@@ -128,6 +128,7 @@ watch(
       <!-- sorting element -->
       <SortItem :asc="props.ascOrder" @change="sortItemHandler" />
     </section>
+    <!-- {{ searchedItems }} -->
     <!-- spinner loading -->
     <section
       v-if="(loading || searching) && !currentPageItems?.length"
