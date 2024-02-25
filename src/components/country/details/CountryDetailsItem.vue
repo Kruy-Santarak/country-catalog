@@ -35,14 +35,11 @@ const props = defineProps({
       <!-- official name -->
       <CountryDetailRecord title="official name" :content="data.officialName" />
       <!-- alternative name -->
-      <CountryDetailRecord
-        title="alternative name"
-        :content="data.alternativeName"
-      >
+      <CountryDetailRecord title="alternative name">
         <template #content>
           <section v-if="data.alternativeName.length" class="w-full flex gap-1">
             <Chip
-              v-for="(item, index) in data.alternativeName.slice(0, 3)"
+              v-for="(item, index) in data.alternativeName"
               :key="`${index}-${item}`"
             >
               <BaseText class="!text-xs">
@@ -55,15 +52,36 @@ const props = defineProps({
       <!-- native name -->
       <CountryDetailRecord title="native name" :content="data.nativeName" />
       <!-- capital city -->
-      <CountryDetailRecord title="capital" :content="data.capital" />
+      <CountryDetailRecord title="capital">
+        <template #content>
+          <section v-if="data.capital?.length" class="w-full flex gap-1">
+            <Chip
+              v-for="(item, index) in data.capital"
+              :key="`${index}-${item}`"
+            >
+              <BaseText class="!text-xs">
+                {{ item }}
+              </BaseText>
+            </Chip>
+          </section>
+        </template>
+      </CountryDetailRecord>
       <!-- iso code -->
       <CountryDetailRecord title="iso code" :content="data.isoCode()" />
       <!-- country code -->
       <CountryDetailRecord title="country code" :content="data.countryCode()" />
       <!-- area -->
-      <CountryDetailRecord title="area" :content="data.area" />
+      <CountryDetailRecord title="area" :content="`${data.area}`" />
       <!-- google map -->
-      <CountryDetailRecord title="google map" :content="data.googleMap" />
+      <CountryDetailRecord title="google map">
+        <template #content>
+          <a :href="data.googleMap" target="_blank">
+            <BaseText class="text-secondary-default hover:text-secondary-dark">
+              {{ data.googleMap }}
+            </BaseText>
+          </a>
+        </template>
+      </CountryDetailRecord>
     </section>
   </div>
 </template>

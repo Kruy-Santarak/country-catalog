@@ -42,9 +42,9 @@ const loadCountriesHandler = async () => {
   }
 };
 
-const loadCountryDetailsHandler = async ({ name = "" }) => {
+const loadCountryDetailsHandler = async (name = "") => {
   try {
-    if (name.trim().length) {
+    if (!name.trim().length) {
       throw new Error("Invalid country name. Please check again!");
     }
     const response = await countryAPI.fetchCountryByName(name);
@@ -53,9 +53,10 @@ const loadCountryDetailsHandler = async ({ name = "" }) => {
     } else {
       if (response.data) {
         const responseData = response.data.map((item) => countryMapper(item));
-        response.data = responseData;
+        response.data = responseData[0];
       }
     }
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);

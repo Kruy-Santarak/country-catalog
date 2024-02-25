@@ -4,17 +4,12 @@ import { useAlert, useState } from "../hooks";
 import store from "../store";
 import { country } from "../controller";
 
-import BaseSpinner from "../components/ui/BaseSpinner.vue";
-import BaseText from "../components/ui/text/BaseText.vue";
-import BaseImage from "../components/ui/image/BaseImage.vue";
 import { useRoute, useRouter } from "vue-router";
 import ErrorModal from "../components/ui/modal/ErrorModal.vue";
-import CountryDetailRecord from "../components/country/details/CountryDetailRecord.vue";
 import BaseCard from "../components/ui/card/BaseCard.vue";
 import CountryDetailsItem from "../components/country/details/CountryDetailsItem.vue";
 
 const route = useRoute();
-const router = useRouter();
 const [errorMessage, setErrorMessage] = useState(null);
 const [loading, setLoading] = useState(false);
 const [countryDetails, setCountryDetails] = useState(null);
@@ -31,13 +26,14 @@ const {
 
 const loadCountryByNameHandler = async () => {
   try {
-    const { name = "" } = route.params;
+    const { name } = route.params;
     let countryFounded = null;
     setLoading(true);
     if (countryFetched.value) {
       countryFounded = store.getters["country/getCountryByName"](name);
     } else {
-      countryFounded = await country.loadCountriesHandler(name);
+      const response = await country.loadCountryDetailsHandler(name);
+      countryFounded = response.data;
     }
 
     if (countryFounded) {
