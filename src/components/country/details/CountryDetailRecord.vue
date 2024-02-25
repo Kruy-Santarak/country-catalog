@@ -12,12 +12,12 @@ const slots = useSlots();
 </script>
 
 <template>
-  <div class="w-full grid grid-cols-10">
-    <BaseTitle class="!text-sm col-span-3 capitalize">{{ title }}</BaseTitle>
-    <BaseText v-if="content && !slots.content" class="!text-sm col-span-7">
+  <div class="w-full grid gap-4 grid-cols-10">
+    <BaseTitle class="!text-sm col-span-4 capitalize">{{ title }}</BaseTitle>
+    <BaseText v-if="content && !slots.content" class="!text-sm col-span-6">
       {{ content }}
     </BaseText>
-    <section v-else class="col-span-7">
+    <section v-else class="col-span-6">
       <slot name="content"></slot>
     </section>
   </div>

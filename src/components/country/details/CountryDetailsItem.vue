@@ -37,7 +37,10 @@ const props = defineProps({
       <!-- alternative name -->
       <CountryDetailRecord title="alternative name">
         <template #content>
-          <section v-if="data.alternativeName.length" class="w-full flex gap-1">
+          <section
+            v-if="data.alternativeName.length"
+            class="w-full flex gap-1 flex-wrap"
+          >
             <Chip
               v-for="(item, index) in data.alternativeName"
               :key="`${index}-${item}`"
@@ -54,7 +57,10 @@ const props = defineProps({
       <!-- capital city -->
       <CountryDetailRecord title="capital">
         <template #content>
-          <section v-if="data.capital?.length" class="w-full flex gap-1">
+          <section
+            v-if="data.capital?.length"
+            class="w-full flex gap-1 flex-wrap"
+          >
             <Chip
               v-for="(item, index) in data.capital"
               :key="`${index}-${item}`"
@@ -76,7 +82,9 @@ const props = defineProps({
       <CountryDetailRecord title="google map">
         <template #content>
           <a :href="data.googleMap" target="_blank">
-            <BaseText class="text-secondary-default hover:text-secondary-dark">
+            <BaseText
+              class="text-secondary-default truncate hover:text-secondary-dark"
+            >
               {{ data.googleMap }}
             </BaseText>
           </a>
